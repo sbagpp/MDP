@@ -9,7 +9,6 @@ whoAsI = line.split(" ")
 m = int(whoAsI[1])
 n = int(whoAsI[0])
 
-distance = np.zeros(((n),(n))) #creo una matrice nxn con soli 0
 distVect = [] #vettore contente le distanze, utile per la scrittura della F.O.
 for x in f:
     x =  x.split(" ")#divido la stirnga x con una regex per far si che la riga si divisa in nodo i-esimo x[0], nodo j-esimo x[1] e in fine in x[2] vi sará la distanza ta i e j
