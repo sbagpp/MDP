@@ -1,4 +1,3 @@
-import numpy as np #per importare le matrici
 from mip import *
 
 name = "SOM-b_1_n100_m10.txt"#nome del file contente la base dati
@@ -14,16 +13,11 @@ distance = np.zeros(((n),(n))) #creo una matrice nxn con soli 0
 distVect = [] #vettore contente le distanze, utile per la scrittura della F.O.
 for x in f:
     x =  x.split(" ")#divido la stirnga x con una regex per far si che la riga si divisa in nodo i-esimo x[0], nodo j-esimo x[1] e in fine in x[2] vi sará la distanza ta i e j
-    i = int(x[0]) #nodo i-esimo
-    j = int(x[1]) #nodo j-esino
     d =  x[2].split("\n") # essendo che il file é progettato su righe dopo ogni distanza di h aun ritorno a capo, quindi per eliminare ciò uso una regex che divide la stringa contenente la distanza dal ritonro a capo \n
-    dij = float(d[0]) # la distanza in alcuni file del mdplb é espresa in decimila quindi casto la stringa contenente le distanze in un float
-    distance[i][j] = dij #aggiungo alla matrice
     distVect.append(float(d[0])) #aggiungo al vettore
 f.close #chiudo la pipeline del file
 model = Model() #creo il modello PL
 x = [ model.add_var(name  = "x"+str(i), var_type=BINARY) for i in range(n)] # aggiungo le varibili binarie che assumono il valore 1 se il nodo x[i] fa parte della suluzione, altrimenti x[i] =0
-r = int((n*n-n)/2)
 y = [] #vettore contente le variabili yi,j. tali varibile assume un valore appartente ai naturali positivi solo se il nodo x[i] e il nodo x[j] assumono entrambe il valore 1
 
 for g in range(n):
@@ -38,7 +32,7 @@ model.objective = maximize(xsum(y[i] * distVect[i] for i in range(len(distVect))
 
 for i in range(n):
     for j in range(i+1, n):
-        if (i<j):
+        if (i<j): #condizione necessaria affinche la matrice delle variabili sia triangolare superiore
             varXi = model.var_by_name("x"+str(i)) #prenodo la variabile xi
             varXj = model.var_by_name("x"+str(j)) #prendo la variabile xj
             varYij = model.var_by_name("y"+str(i)+","+str(j)) #prendo la variabile yij
@@ -54,8 +48,8 @@ model += xsum( x[i] for i in range(n)) == m #chiedo che nella soluzione vi siano
 ##print (model.objective)
             
 
-
-model.optimize(max_seconds=60*60*12) # inzia la soluzione 
+sec = 0 #definire il tempo d'esecuzione 
+model.optimize(max_seconds = sec) # inzia la soluzione 
 
 premessa = "Le varibili in base nella soluzione sono:\n"
 
@@ -65,6 +59,6 @@ for xi in model.vars:
 
 
 
-premessa += "La funzione obbiettivo vale : "+str(model.objective.x)+"/n"
+premessa += "La funzione obbiettivo vale : "+str(model.objective.x)+"\n"
 
 print(premessa)
