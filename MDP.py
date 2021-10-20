@@ -59,11 +59,5 @@ def risolutore(name) :
         if xi.x != 0:
             premessa += str(xi)+"= "+str(xi.x)+"\n"
     '''
-    
-
-
-
     premessa += str(model.objective.x)+";\n"
     return premessa
-    #print(premessa)
-    
