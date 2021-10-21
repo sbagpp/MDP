@@ -7,3 +7,4 @@ for i in range(1, 50):
     s += risolutore(name)
 
 f.write(s)
+f.close()
