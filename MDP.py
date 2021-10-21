@@ -49,7 +49,7 @@ def risolutore(name) :
 
     ##print (model.objective)
                 
-    time = {25 : 3, 50 : 5, 100 : 10, 125 : 13 , 150 : 15}
+    time = {25 : 3, 50 : 5, 100 : 10, 125 : 13 , 150 : 15} #dizionario dei tempi
     sec = time[n]*60 #definire il tempo d'esecuzione 
     model.optimize(max_seconds = sec) # inzia la soluzione 
 
